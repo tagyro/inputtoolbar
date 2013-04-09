@@ -91,4 +91,6 @@
 - (void)scrollRangeToVisible:(NSRange)range;
 - (void)clearText;
 
+- (void)setEnabled:(BOOL)enabled;
+
 @end

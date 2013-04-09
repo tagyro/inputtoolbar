@@ -32,6 +32,7 @@
 
 #define kTextInsetX 4
 #define kTextInsetBottom 0
+#define MAX_CHARACTERS_NUM 1500
 
 @implementation UIExpandingTextView
 
@@ -53,6 +54,8 @@
 - (void)setPlaceholder:(NSString *)placeholders
 {
     placeholder = placeholders;
+    [placeholderLabel setFont:regular14];
+    [placeholderLabel setTextColor:[UIColor colorWithRed:140.0/255.0 green:160.0/255.0 blue:190.0/255.0 alpha:1.0]];
     placeholderLabel.text = placeholders;
 }
 
@@ -81,8 +84,8 @@
         /* Internal Text View component */
 		internalTextView = [[UIExpandingTextViewInternal alloc] initWithFrame:textViewFrame];
 		internalTextView.delegate        = self;
-		internalTextView.font            = [UIFont systemFontOfSize:15.0]; 
-		internalTextView.contentInset    = UIEdgeInsetsMake(-4,0,-4,0);	
+		internalTextView.font            = regular16;//[UIFont systemFontOfSize:15.0];
+		internalTextView.contentInset    = UIEdgeInsetsMake(-5,0,-5,0);
         internalTextView.text            = @"-";
 		internalTextView.scrollEnabled   = NO;
         internalTextView.opaque          = NO;
@@ -92,7 +95,7 @@
         internalTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         /* set placeholder */
-        placeholderLabel = [[UILabel alloc]initWithFrame:CGRectMake(8,3,self.bounds.size.width - 16,self.bounds.size.height)];
+        placeholderLabel = [[UILabel alloc]initWithFrame:CGRectMake(8,4,self.bounds.size.width - 16,self.bounds.size.height)];
         placeholderLabel.text = placeholder;
         placeholderLabel.font = internalTextView.font;
         placeholderLabel.backgroundColor = [UIColor clearColor];
@@ -105,6 +108,7 @@
         textViewBackgroundImage.contentMode    = UIViewContentModeScaleToFill;
         textViewBackgroundImage.contentStretch = CGRectMake(0.5, 0.5, 0, 0);
         
+        
         [self addSubview:textViewBackgroundImage];
         [self addSubview:internalTextView];
 
@@ -114,7 +118,7 @@
 		[self setMinimumNumberOfLines:1];
 		animateHeightChange = YES;
 		internalTextView.text = @"";
-		[self setMaximumNumberOfLines:13];
+        [self setMaximumNumberOfLines:7];
         
         [self sizeToFit];
     }
@@ -203,6 +207,12 @@
     else
         placeholderLabel.alpha = 0;
     
+    //  Chech
+    if (internalTextView.text.length > MAX_CHARACTERS_NUM)
+    {
+        internalTextView.text = [internalTextView.text substringToIndex:MAX_CHARACTERS_NUM];
+    }
+    
 	NSInteger newHeight = internalTextView.contentSize.height;
     
 	if(newHeight < minimumHeight || !internalTextView.hasText)
@@ -238,7 +248,11 @@
 			self.frame = r;
 			r.origin.y = 0;
 			r.origin.x = 0;
-            internalTextView.frame = CGRectInset(r, kTextInsetX, 0);
+            
+            CGRect f = r;
+            f.size.height -=9;
+            internalTextView.frame = CGRectInset(f, kTextInsetX, 0);
+            
             r.size.height -= 8;
             textViewBackgroundImage.frame = r;
             
@@ -250,6 +264,7 @@
             {
                 [delegate expandingTextView:self didChangeHeight:(newHeight+ kTextInsetBottom)];
             }
+            
 		}
 		
 		if (newHeight >= maximumHeight)
@@ -356,6 +371,11 @@
 -(void)setEditable:(BOOL)beditable
 {
 	internalTextView.editable = beditable;
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+    [internalTextView setUserInteractionEnabled:enabled];
 }
 
 -(BOOL)isEditable

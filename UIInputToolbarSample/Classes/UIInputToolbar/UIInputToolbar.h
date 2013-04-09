@@ -29,6 +29,10 @@
 @protocol UIInputToolbarDelegate <NSObject>
 @optional
 -(void)inputButtonPressed:(NSString *)inputText;
+-(void)plusButtonPressed:(id)sender;
+-(void)inputDidBegingEditing;
+-(void)inputDidChange;
+-(void)inputDidEndEditing;
 @end
 
 @interface UIInputToolbar : UIToolbar <UIExpandingTextViewDelegate> 
@@ -42,6 +46,9 @@
 
 @property (nonatomic, retain) UIExpandingTextView *textView;
 @property (nonatomic, retain) UIBarButtonItem *inputButton;
+@property (nonatomic, retain) UIBarButtonItem *addButton;
 @property (assign) NSObject<UIInputToolbarDelegate> *delegate;
+
+-(void)setEnabled:(BOOL)enabled;
 
 @end
