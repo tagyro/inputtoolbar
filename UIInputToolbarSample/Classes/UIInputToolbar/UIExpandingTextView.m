@@ -93,7 +93,8 @@
         internalTextView.showsHorizontalScrollIndicator = NO;
         [internalTextView sizeToFit];
         internalTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        
+        // hack for receding keyboard
+        [internalTextView setInputAccessoryView:[[UIView alloc] initWithFrame:CGRectZero]];
         /* set placeholder */
         placeholderLabel = [[UILabel alloc]initWithFrame:CGRectMake(8,4,self.bounds.size.width - 16,self.bounds.size.height)];
         placeholderLabel.text = placeholder;
