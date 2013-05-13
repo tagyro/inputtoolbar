@@ -54,7 +54,7 @@
 - (void)setPlaceholder:(NSString *)placeholders
 {
     placeholder = placeholders;
-    [placeholderLabel setFont:regular14];
+    [placeholderLabel setFont:medium14];
     [placeholderLabel setTextColor:[UIColor colorWithRed:140.0/255.0 green:160.0/255.0 blue:190.0/255.0 alpha:1.0]];
     placeholderLabel.text = placeholders;
 }
@@ -84,7 +84,7 @@
         /* Internal Text View component */
 		internalTextView = [[UIExpandingTextViewInternal alloc] initWithFrame:textViewFrame];
 		internalTextView.delegate        = self;
-		internalTextView.font            = regular16;//[UIFont systemFontOfSize:15.0];
+		internalTextView.font            = medium17;//[UIFont systemFontOfSize:15.0];
 		internalTextView.contentInset    = UIEdgeInsetsMake(-5,0,-5,0);
         internalTextView.text            = @"-";
 		internalTextView.scrollEnabled   = NO;
